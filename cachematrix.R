@@ -1,20 +1,23 @@
 ## Put comments here that give an overall description of what your
 ## functions do
 
-#With this function, you can obtain sum values of inverse matrix(x)
+#With this function, you can obtain a special Matrix (x) with inverse inverse values. 
+#The information can be reclaim through this function into the R dataset. 
 
 x<-1:200
-makeCacheMatrix <- function(x = matrix()) {m <- NULL
-set <- function(y) {
-  x <<- y
-  m <<- NULL
-}
-get <- function() x
-setsum <- function(sum) m <<- sum
-getsum <- function() m
-list(set = set, get = get,
-     setsum = setsum,
-     getsum = getsum)
+
+makeCacheMatrix <- function(x = matrix()) {
+  s <- NULL
+  set <- function(y) {
+    x <<- y
+    s <<- NULL
+  }
+  get <- function() x
+  setinverse <- function(solve) s <<- solve
+  getinverse <- function() s
+  list(set = set, get = get,
+       setinverse = setinverse,
+       getinverse = getinverse)
 }
 
 ## Write a short comment describing this function
@@ -35,5 +38,16 @@ makeCacheMatrix <- function(x = matrix()) {
 #(and the matrix has not changed), then the cachesolve should retrieve the inverse from the cache.
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  
+  ## Return a matrix that is the inverse of 'x'
+  
+  s <- x$getsolve()
+  if(!is.null(s)) {
+    message("getting cached data")
+    return(s)
+  }
+  data <- x$get()
+  s <- solve(data, ...)
+  x$setsolve(s)
+  s
 }
